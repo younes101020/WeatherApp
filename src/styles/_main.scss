@@ -1,9 +1,27 @@
+$bgDark: #020617;
+$fontDark: #94A3B8;
+
+$bgLight: #94A3B8;
+$fontLight: #0F172A;
+
+.isDark {
+    background-color: $bgDark;
+    color: $fontDark;
+}
+
+.isLight {
+    background-color: $bgLight;
+    color: $fontLight;
+}
+
 * {
     margin: 0;
     padding: 0;
-    background-color: red;
+    box-sizing: border-box;
 }
 
-.navbar {
-    
+body {
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--font-color);
 }

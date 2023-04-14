@@ -1,4 +1,33 @@
+$bgDark: #0F172A;
+$fontDark: #64748B;
+
+$bgLight: #CBD5E1;
+$fontLight: #0F172A;
+
+.isBodyDark {
+    background-color: $bgDark;
+    color: $fontDark;
+}
+
+.isBodyLight {
+    background-color: $bgLight;
+    color: $fontLight;
+}
+
 .navbar {
+    height: 4rem;
     display: flex;
-    justify-content: space-around;
+    align-items: center;
+    .menu {
+        width: 100%;
+        padding: 0 3rem;
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        font-size: 1.5rem;
+        li {
+            display: flex;
+            align-items: center;
+        }
+    }
 }
