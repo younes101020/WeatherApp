@@ -8,6 +8,13 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+    (function() {
+      const themeClass = localStorage.getItem('mode') === 'isBodyLight' ? 'isBodyLight' : 'isBodyDark';
+      document.body.classList.remove('isBodyLight','isBodyDark')
+      document.body.classList.add(themeClass);
+    })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

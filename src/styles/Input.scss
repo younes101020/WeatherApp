@@ -1,0 +1,63 @@
+@import './abstract/colors';
+@import './abstract/restTheme';
+.Input {
+    padding: 5rem 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    .field {
+        display: flex;
+        flex-direction: column;
+        #city {
+            box-sizing: border-box;
+            background: transparent;
+            border: .1em solid #64748B;
+            color: #64748B;
+            padding: .6rem 1rem;
+            &:focus {
+                box-shadow: 0 0 .3rem .1rem rgba(255, 255, 255, .2);
+                outline: none;
+            }
+        };
+        .citySugg {
+            border: .1em solid #64748B;
+            border-top: none;
+            border-radius: 0 0 .5rem .5rem;
+            padding: .5rem 0;
+            ul {
+                list-style-type: none;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                gap: .3rem;
+                li {
+                    width: 100%;
+                    text-align: center;
+                    &:not(:last-child) {
+                        border-bottom: .1em solid #64748B;
+                        padding: 0 0 .5rem 0;
+                    }
+                }
+            }
+        }
+    }
+    :is(button) {
+        box-sizing: border-box;
+        align-self: flex-start;
+        cursor: pointer;
+        border-radius: 0 .5rem .5rem 0;
+        border: .1em solid #64748B;
+        border-left: none;
+        padding: .56rem 1rem;
+    };
+    :is(span) {
+        z-index: 1;
+        align-self: flex-start;
+        font-size: .9rem;
+        border-radius: .5rem 0 0 .5rem;
+        border: .1em solid #64748B;
+        border-right: none;
+        padding: .5rem .7rem;
+    }
+};

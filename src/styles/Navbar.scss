@@ -1,20 +1,10 @@
-$bgDark: #0F172A;
-$fontDark: #64748B;
-
-$bgLight: #CBD5E1;
-$fontLight: #0F172A;
-
-.isBodyDark {
-    background-color: $bgDark;
-    color: $fontDark;
-}
-
-.isBodyLight {
-    background-color: $bgLight;
-    color: $fontLight;
-}
+@import 'abstract/colors';
+@import 'abstract/restTheme';
 
 .navbar {
+    -webkit-transition: background-color 0.5s ease;
+    -ms-transition: background-color 0.5s ease;
+    transition: background-color 0.5s ease;
     height: 4rem;
     display: flex;
     align-items: center;
@@ -28,6 +18,7 @@ $fontLight: #0F172A;
         li {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
     }
 }

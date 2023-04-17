@@ -1,0 +1,10 @@
+@import './colors';
+.isDark {
+    background-color: $bgDark;
+    color: $fontDark;
+}
+
+.isLight {
+    background-color: $bgLight;
+    color: $fontLight;
+}
