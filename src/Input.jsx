@@ -13,6 +13,7 @@ function Input() {
     const { theme } = useContext(ThemeContext);
 
     useEffect(() => {
+        console.log(cityOnChange)
         if(cityOnChange.length > 2) {
             const fetchSearchResults = async () => {
                 try {
@@ -29,6 +30,9 @@ function Input() {
 
     const handleInputChange = async (e) => {
         setCityOnChange(e.target.value)
+        if(e.target.value === '') {
+            setCitySugg([])
+        }
     }
 
     const handleSubmit = (e) => {
@@ -58,13 +62,21 @@ function Input() {
                 </span>
                 <div className='field'>
                     <input type='text' id='city' name='cityOnChange' onChange={handleInputChange} value={cityOnChange} />
-                    <div className={`citySugg ${theme.rest}`}>
-                        <ul>
-                            {citySugg.map((el, index) => (
-                                <li key={index}>{el.name}</li>
-                            ))}
-                        </ul>
-                    </div>
+                    
+                            {citySugg.length > 0 ?
+                            (
+                            <div className={`citySugg ${theme.rest}`}>
+                                <ul>
+                                {citySugg.map((el, index) => (
+                                    <li key={index}>{el.name}</li>
+                                ))}
+                                </ul>
+                            </div>
+                            )
+                                :
+                            null
+                            }
+                    
                 </div>
                 <button type='submit' className={theme.rest}>
                     <AiOutlineEnter />
