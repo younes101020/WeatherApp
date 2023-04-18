@@ -2,9 +2,11 @@ import './styles/Weather.scss'
 
 function Weather() {
     return (
-        <>
-            <p>Okay</p>
-        </>
+            <div className='weather'>
+                <ul className='timeline'>
+                    
+                </ul>
+            </div>
     )
 }
 export default Weather

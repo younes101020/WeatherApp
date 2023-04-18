@@ -33,6 +33,7 @@
                 gap: .3rem;
                 li {
                     width: 100%;
+                    cursor: pointer;
                     text-align: center;
                     &:not(:last-child) {
                         border-bottom: .1em solid #64748B;

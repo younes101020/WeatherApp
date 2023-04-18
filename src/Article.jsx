@@ -2,9 +2,9 @@ import './styles/Weather.scss'
 
 function Article() {
     return (
-        <>
-            <p>Okayy</p>
-        </>
+        <div className='citydesc'>
+            
+        </div>
     )
 }
 export default Article;
