@@ -8,11 +8,17 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
+    <script defer>
     (function() {
       const themeClass = localStorage.getItem('mode') === 'isBodyLight' ? 'isBodyLight' : 'isBodyDark';
       document.body.classList.remove('isBodyLight','isBodyDark')
       document.body.classList.add(themeClass);
+      document.addEventListener("DOMContentLoaded", function() {
+        document.body.classList.add("no-transition");
+        setTimeout(function() {
+          document.body.classList.remove("no-transition");
+        }, 1000);
+      });
     })();
     </script>
     <script type="module" src="/src/main.jsx"></script>

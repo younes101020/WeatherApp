@@ -1,7 +1,7 @@
 // La gestion de l'état du theme se fais intégralement sur le composant navbar
 // excepter l'initialisation qui elle se fais sur le composant App
 import { useContext } from 'react';
-import './styles/Navbar.scss'
+import '../styles/Navbar.scss'
 import { ThemeContext } from './App'
 import { HiMoon } from 'react-icons/hi'
 import { AiFillGithub } from 'react-icons/ai'

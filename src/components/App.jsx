@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useState } from 'react'
 import Navbar from './Navbar'
 import Input from './Input'
-import './styles/App.scss'
+import '../styles/App.scss'
 
 export const ThemeContext = createContext(null);
 

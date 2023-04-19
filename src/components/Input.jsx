@@ -1,13 +1,14 @@
 import Weather from './Weather';
 import Article from './Article';
 import { ThemeContext } from './App'
-import './styles/Input.scss';
-import { useContext, useState, useEffect, useCallback, useRef, useReducer } from 'react';
+import useDebounce from '../hooks/useDebounce';
+import '../styles/Input.scss';
+import { useContext, useEffect, useCallback, useRef, useReducer } from 'react';
 import { AiOutlineEnter } from 'react-icons/ai';
 import { GiPositionMarker } from 'react-icons/gi';
 
 const initialState = {
-    city: { lat: '48.866667', lon: '2.333333' },
+    city: { latitude: '48.866667', longitude: '2.333333' },
     cityOnChange: '',
     citySugg: [],
 };
@@ -31,9 +32,10 @@ function Input() {
     const formRef = useRef();
     const isSuggestionVal = cityOnChange.includes(' ');
     const { theme } = useContext(ThemeContext);
+    const debouncedInputValue = useDebounce(cityOnChange, 500)
 
     useEffect(() => {
-        if (cityOnChange.length > 2 && !isSuggestionVal) {
+        if (debouncedInputValue && !isSuggestionVal) {
             const fetchSearchResults = async () => {
                 try {
                     const response = await fetch(`http://localhost:3001/geocode/${cityOnChange}`);
@@ -45,7 +47,7 @@ function Input() {
             };
             fetchSearchResults();
         }
-    }, [cityOnChange]);
+    }, [debouncedInputValue]);
 
     const handleInputChange = async (e) => {
         dispatch({ type: 'SET_CITY_ON_CHANGE', payload: e.target.value });
@@ -56,17 +58,18 @@ function Input() {
 
     const handleClick = (place) => {
         dispatch({ type: 'SET_CITY_ON_CHANGE', payload: place.name + ' ' });
+        dispatch({ type: 'SET_CITY', payload: place });
         dispatch({ type: 'SET_CITY_SUGG', payload: [] });
-        formRef.current.submit();
+        formRef.current.click();
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+       e.preventDefault();
     };
 
     const fetchWeather = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:3001/weather/${city.lat}/${city.lon}`);
+            const response = await fetch(`http://localhost:3001/weather/${city.latitude}/${city.longitude}`);
             const data = await response.json();
             console.log(data);
         } catch (error) {
