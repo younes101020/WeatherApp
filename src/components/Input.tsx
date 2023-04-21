@@ -7,25 +7,34 @@ import { useContext, useEffect, useRef, useReducer } from 'react';
 import { AiOutlineEnter } from 'react-icons/ai';
 import { GiPositionMarker } from 'react-icons/gi';
 
-interface ICityData {
+interface Location {
     name: string,
     latitude: number,
     longitude: number
 }
 
-type IAction = {
-    type: 'SET_CITY' | 'SET_CITY_ON_CHANGE' | 'SET_CITY_SUGG' | 'SET_WEATHER',
-    payload: any
+interface State {
+    city: Location,
+    cityOnChange: string,
+    citySugg: Location[]
 }
 
-const initialState = {
-    city: { latitude: '48.866667', longitude: '2.333333' },
+type Action = 
+    |  {   type: 'SET_CITY', payload: any}
+    |  {   type: 'SET_CITY_ON_CHANGE', payload: any}
+    |  {   type: 'SET_CITY_SUGG', payload: any}
+
+const initialState: State = {
+    city: { 
+        name: 'paris', 
+        latitude: 48.866667, 
+        longitude: 2.333333 
+    },
     cityOnChange: '',
     citySugg: [],
-    weather: []
 };
 
-function reducer(state: ICityData, action: IAction) {
+function reducer(state: State, action: Action) {
     switch (action.type) {
         case 'SET_CITY':
             return { ...state, city: action.payload };
@@ -33,8 +42,6 @@ function reducer(state: ICityData, action: IAction) {
             return { ...state, cityOnChange: action.payload };
         case 'SET_CITY_SUGG':
             return { ...state, citySugg: action.payload };
-        case 'SET_WEATHER':
-            return { ...state, weather: action.payload };
         default:
             throw new Error();
     }
@@ -42,17 +49,16 @@ function reducer(state: ICityData, action: IAction) {
 
 function Input() {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { city, cityOnChange, citySugg, weather } = state;
     const formRef = useRef();
-    const isSuggestionVal = cityOnChange.includes(' ');
+    const isSuggestionVal = state.cityOnChange.includes(' ');
     const { theme } = useContext(ThemeContext);
-    const debouncedInputValue = useDebounce(cityOnChange, 500)
+    const debouncedInputValue = useDebounce(state.cityOnChange, 500)
 
     useEffect(() => {
         if (debouncedInputValue && !isSuggestionVal) {
             const fetchSearchResults = async () => {
                 try {
-                    const response = await fetch(`http://localhost:3001/geocode/${cityOnChange}`);
+                    const response = await fetch(`http://localhost:3001/geocode/${state.cityOnChange}`);
                     const data = await response.json();
                     dispatch({ type: 'SET_CITY_SUGG', payload: data });
                     console.log(data)
@@ -64,14 +70,14 @@ function Input() {
         }
     }, [debouncedInputValue]);
 
-    const handleInputChange = async (e) => {
+    const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch({ type: 'SET_CITY_ON_CHANGE', payload: e.target.value });
         if (e.target.value === '') {
             dispatch({ type: 'SET_CITY_SUGG', payload: [] });
         }
     };
 
-    const handleClick = (obj: ICityData) => {
+    const handleClick = (obj: State["city"]) => {
         dispatch({ type: 'SET_CITY_ON_CHANGE', payload: obj.name + ' ' });
         dispatch({ type: 'SET_CITY', payload: obj });
         dispatch({ type: 'SET_CITY_SUGG', payload: [] });
@@ -82,19 +88,6 @@ function Input() {
        e.preventDefault();
     };
 
-    useEffect(() => {
-        const fetchWeather = async () => {
-            try {
-                const response = await fetch(`http://localhost:3001/weather/${city.latitude}/${city.longitude}`);
-                const weather = await response.json();
-                dispatch({ type: 'SET_WEATHER', payload: weather.data });
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchWeather();
-    }, [city]);
-
     return (
         <>
             <form ref={formRef} onSubmit={handleSubmit} className='Input' autoComplete='off'>
@@ -102,13 +95,13 @@ function Input() {
                     <GiPositionMarker />
                 </span>
                 <div className='field'>
-                    <input type='text' id='city' name='cityOnChange' onChange={handleInputChange} value={cityOnChange} />
+                    <input type='text' id='city' name='cityOnChange' onChange={handleInputChange} value={state.cityOnChange} />
                     
-                            {citySugg.length > 0 ?
+                            {state.citySugg.length > 0 ?
                             (
                             <div className={`citySugg ${theme.rest}`}>
                                 <ul>
-                                {citySugg.map((el, index) => (
+                                {state.citySugg.map((el, index) => (
                                     <li key={index} onClick={() => handleClick(el)}>{el.name}</li>
                                 ))}
                                 </ul>
@@ -124,7 +117,7 @@ function Input() {
                 </button>
             </form>
             <section className='container'>
-                <Weather data={weather} />
+                <Weather city={state.city} dispatch={dispatch} />
                 <Article />
             </section>
         </>
@@ -132,3 +125,4 @@ function Input() {
 }
 
 export default Input
+export type cityType = State["city"];

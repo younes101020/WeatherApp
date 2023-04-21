@@ -34,7 +34,20 @@ app.get('/weather/:lat/:lon', async (req, res) => {
         } else {
             response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${weaiKey}`);
             datas = await response.json();
-            await redisClient.set(`${lat}&${lon}`, JSON.stringify(datas));
+            const formatedData = datas.data.map(({ valid_date, temp, max_temp, min_temp, rh, weather, vis, sunset_ts, sunrise_ts, moonrise_ts, moonset_ts }) => ({
+                                    valid_date,
+                                    temp,
+                                    max_temp,
+                                    min_temp,
+                                    average_humid: rh,
+                                    icon: weather.icon,
+                                    visibility_km: vis,
+                                    sunset_ts,
+                                    sunrise_ts,
+                                    moonrise_ts,
+                                    moonset_ts,
+                                }));
+            await redisClient.set(`${lat}&${lon}`, JSON.stringify(formatedData));
         }
         res.send({fromCache: isCached, data: datas});
     } catch (error) {
