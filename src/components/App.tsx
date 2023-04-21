@@ -3,7 +3,17 @@ import Navbar from './Navbar'
 import Input from './Input'
 import '../styles/App.scss'
 
-export const ThemeContext = createContext(null);
+interface Theme {
+  body: string,
+  rest: string
+}
+
+let myTheme: Theme = {
+  body: '',
+  rest: '',
+};
+
+export const ThemeContext = createContext<{theme: Theme; setTheme: React.Dispatch<React.SetStateAction<Theme>>}>({theme: myTheme, setTheme: () => {}});
 
 function App() {
   const getInitialTheme = () => {
