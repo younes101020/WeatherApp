@@ -16,7 +16,7 @@ let myTheme: Theme = {
 export const ThemeContext = createContext<{theme: Theme; setTheme: React.Dispatch<React.SetStateAction<Theme>>}>({theme: myTheme, setTheme: () => {}});
 
 function App() {
-  const getInitialTheme = () => {
+  const getInitialTheme = (): Theme => {
     const isLightMode = localStorage.getItem('mode');
     return isLightMode === 'isBodyLight'
       ? {
@@ -29,7 +29,7 @@ function App() {
         };
   };
 
-  const [theme, setTheme] = useState(getInitialTheme);
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   return (
     <ThemeContext.Provider value={{theme, setTheme}}>
