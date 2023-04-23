@@ -6,23 +6,7 @@ import '../styles/Input.scss';
 import { useContext, useEffect, useRef, useReducer } from 'react';
 import { AiOutlineEnter } from 'react-icons/ai';
 import { GiPositionMarker } from 'react-icons/gi';
-
-interface Location {
-    name: string,
-    latitude: number,
-    longitude: number
-}
-
-interface State {
-    city: Location,
-    cityOnChange: string,
-    citySugg: Location[]
-}
-
-type Action = 
-    |  {   type: 'SET_CITY', payload: any}
-    |  {   type: 'SET_CITY_ON_CHANGE', payload: any}
-    |  {   type: 'SET_CITY_SUGG', payload: any}
+import { State, Action } from '../../types/reducerInterface'
 
 const initialState: State = {
     city: { 
@@ -49,7 +33,7 @@ function reducer(state: State, action: Action) {
 
 function Input() {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const formRef = useRef();
+    const formRef = useRef<HTMLFormElement>(null);
     const isSuggestionVal = state.cityOnChange.includes(' ');
     const { theme } = useContext(ThemeContext);
     const debouncedInputValue = useDebounce(state.cityOnChange, 500)
@@ -81,7 +65,7 @@ function Input() {
         dispatch({ type: 'SET_CITY_ON_CHANGE', payload: obj.name + ' ' });
         dispatch({ type: 'SET_CITY', payload: obj });
         dispatch({ type: 'SET_CITY_SUGG', payload: [] });
-        formRef.current && (formRef.current as HTMLFormElement).click();
+        formRef.current && formRef.current.click();
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -101,7 +85,7 @@ function Input() {
                             (
                             <div className={`citySugg ${theme.rest}`}>
                                 <ul>
-                                {state.citySugg.map((el, index) => (
+                                {state.citySugg.map((el: State['city'], index: number) => (
                                     <li key={index} onClick={() => handleClick(el)}>{el.name}</li>
                                 ))}
                                 </ul>
@@ -117,7 +101,7 @@ function Input() {
                 </button>
             </form>
             <section className='container'>
-                <Weather city={state.city} dispatch={dispatch} />
+                <Weather city={state.city} />
                 <Article />
             </section>
         </>
