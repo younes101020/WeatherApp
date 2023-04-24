@@ -1,0 +1,6 @@
+@mixin card($minWidth) {
+    height: 25rem;
+    padding: 3rem;
+    border-radius: .3rem;
+    min-width: $minWidth;
+}

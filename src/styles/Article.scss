@@ -1,0 +1,7 @@
+@use './App';
+.article {
+    @include App.card(25vw);
+    @media (max-width: 1025px) {
+        min-width: 70vw;
+    }
+}
