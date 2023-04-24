@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server/server.mjs",
-    "dev": "concurrently \"nodemon server/server.mjs\" \"vite\"",
+    "start": "node server/server.ts",
+    "dev": "concurrently \"nodemon server/server.ts\" \"vite\"",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest"
@@ -17,7 +17,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "react-loading-skeleton": "^3.2.1",
     "redis": "^4.6.5"
   },
   "devDependencies": {

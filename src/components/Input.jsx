@@ -3,22 +3,17 @@ import Article from './Article';
 import { ThemeContext } from './App'
 import useDebounce from '../hooks/useDebounce';
 import '../styles/Input.scss';
-import { useContext, useEffect, useRef, useReducer } from 'react';
+import { useContext, useEffect, useCallback, useRef, useReducer } from 'react';
 import { AiOutlineEnter } from 'react-icons/ai';
 import { GiPositionMarker } from 'react-icons/gi';
-import { State, Action } from '../../types/reducerInterface'
 
-const initialState: State = {
-    city: { 
-        name: 'paris', 
-        latitude: 48.866667, 
-        longitude: 2.333333 
-    },
+const initialState = {
+    city: { latitude: '48.866667', longitude: '2.333333' },
     cityOnChange: '',
     citySugg: [],
 };
 
-function reducer(state: State, action: Action) {
+function reducer(state, action) {
     switch (action.type) {
         case 'SET_CITY':
             return { ...state, city: action.payload };
@@ -33,19 +28,19 @@ function reducer(state: State, action: Action) {
 
 function Input() {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const formRef = useRef<HTMLFormElement>(null);
-    const isSuggestionVal = state.cityOnChange.includes(' ');
+    const { city, cityOnChange, citySugg } = state;
+    const formRef = useRef();
+    const isSuggestionVal = cityOnChange.includes(' ');
     const { theme } = useContext(ThemeContext);
-    const debouncedInputValue = useDebounce(state.cityOnChange, 500)
+    const debouncedInputValue = useDebounce(cityOnChange, 500)
 
     useEffect(() => {
         if (debouncedInputValue && !isSuggestionVal) {
             const fetchSearchResults = async () => {
                 try {
-                    const response = await fetch(`http://localhost:3001/geocode/${state.cityOnChange}`);
+                    const response = await fetch(`http://localhost:3001/geocode/${cityOnChange}`);
                     const data = await response.json();
                     dispatch({ type: 'SET_CITY_SUGG', payload: data });
-                    console.log(data)
                 } catch (error) {
                     console.log(error);
                 }
@@ -54,23 +49,37 @@ function Input() {
         }
     }, [debouncedInputValue]);
 
-    const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = async (e) => {
         dispatch({ type: 'SET_CITY_ON_CHANGE', payload: e.target.value });
         if (e.target.value === '') {
             dispatch({ type: 'SET_CITY_SUGG', payload: [] });
         }
     };
 
-    const handleClick = (obj: State["city"]) => {
-        dispatch({ type: 'SET_CITY_ON_CHANGE', payload: obj.name + ' ' });
-        dispatch({ type: 'SET_CITY', payload: obj });
+    const handleClick = (place) => {
+        dispatch({ type: 'SET_CITY_ON_CHANGE', payload: place.name + ' ' });
+        dispatch({ type: 'SET_CITY', payload: place });
         dispatch({ type: 'SET_CITY_SUGG', payload: [] });
-        formRef.current && formRef.current.click();
+        formRef.current.click();
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e) => {
        e.preventDefault();
     };
+
+    const fetchWeather = useCallback(async () => {
+        try {
+            const response = await fetch(`http://localhost:3001/weather/${city.latitude}/${city.longitude}`);
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }, [city]);
+
+    useEffect(() => {
+        fetchWeather();
+    }, [city]);
 
     return (
         <>
@@ -79,13 +88,13 @@ function Input() {
                     <GiPositionMarker />
                 </span>
                 <div className='field'>
-                    <input type='text' id='city' name='cityOnChange' onChange={handleInputChange} value={state.cityOnChange} />
+                    <input type='text' id='city' name='cityOnChange' onChange={handleInputChange} value={cityOnChange} />
                     
-                            {state.citySugg.length > 0 ?
+                            {citySugg.length > 0 ?
                             (
                             <div className={`citySugg ${theme.rest}`}>
                                 <ul>
-                                {state.citySugg.map((el: State['city'], index: number) => (
+                                {citySugg.map((el, index) => (
                                     <li key={index} onClick={() => handleClick(el)}>{el.name}</li>
                                 ))}
                                 </ul>
@@ -101,12 +110,11 @@ function Input() {
                 </button>
             </form>
             <section className='container'>
-                <Weather city={state.city} theme={theme.rest} />
-                <Article theme={theme.rest} />
+                <Weather />
+                <Article />
             </section>
         </>
     );
 }
 
 export default Input
-export type cityType = State["city"];

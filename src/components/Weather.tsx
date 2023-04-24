@@ -1,11 +1,8 @@
 import '../styles/Weather.scss'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
 import { useEffect, useState } from 'react';
-import { cityType } from './Input';
-import { IWeather } from '../../types/interfaces'
+import { IWeather, ICity, Theme } from '../../types/interfaces'
 
-function Weather({ city }: { city: cityType }) {
+function Weather({ city, theme }: { city: ICity, theme: Theme['rest']}) {
     const [weather, setWeather] = useState<IWeather[]>([]);
 
     useEffect(() => {
@@ -22,11 +19,11 @@ function Weather({ city }: { city: cityType }) {
     }, [city]);
 
     return (
-            <div className='weather'>
-                {weather ? (
+            <div className={`weather ${theme} card`}>
+                {false ? (
                     <p>Valeur chargé</p>
                 ) : (
-                    <Skeleton baseColor={'#020617'} highlightColor={'#0f172a'} />
+                    <div className="skeleton"></div>
                 )}
             </div>
     )

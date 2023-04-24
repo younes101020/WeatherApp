@@ -72,3 +72,8 @@ export interface ICityApiResponse extends ICity {
     population: number,
     is_capital: boolean
 }
+
+export type Theme = {
+    body: string,
+    rest: string
+}

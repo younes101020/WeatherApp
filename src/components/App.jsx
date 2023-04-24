@@ -2,17 +2,11 @@ import { createContext, useState } from 'react'
 import Navbar from './Navbar'
 import Input from './Input'
 import '../styles/App.scss'
-import { Theme } from '../../types/interfaces';
 
-let myTheme: Theme = {
-  body: '',
-  rest: '',
-};
-
-export const ThemeContext = createContext<{theme: Theme; setTheme: React.Dispatch<React.SetStateAction<Theme>>}>({theme: myTheme, setTheme: () => {}});
+export const ThemeContext = createContext(null);
 
 function App() {
-  const getInitialTheme = (): Theme => {
+  const getInitialTheme = () => {
     const isLightMode = localStorage.getItem('mode');
     return isLightMode === 'isBodyLight'
       ? {
@@ -25,7 +19,7 @@ function App() {
         };
   };
 
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const [theme, setTheme] = useState(getInitialTheme);
 
   return (
     <ThemeContext.Provider value={{theme, setTheme}}>
