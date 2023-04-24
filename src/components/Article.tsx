@@ -4,11 +4,11 @@ import { Theme } from '../../types/interfaces'
 function Article({ theme }: { theme: Theme['rest'] }) {
     return (
         false ? (
-           <div className={`citydesc ${theme} card`}>
+           <div className={`article ${theme}`}>
                 <div className='skeleton'></div>
             </div> 
         ): (
-            <div className={`skeleton ${theme} card`}></div> 
+            <div className={`article skeleton ${theme}`}></div> 
         )
         
     )

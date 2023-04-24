@@ -1,0 +1,7 @@
+@use './App';
+.weather {
+    @include App.card(40vw);
+    @media (max-width: 1025px) {
+        min-width: 70vw;
+    }
+}

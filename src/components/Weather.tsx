@@ -19,13 +19,13 @@ function Weather({ city, theme }: { city: ICity, theme: Theme['rest']}) {
     }, [city]);
 
     return (
-            <div className={`weather ${theme} card`}>
-                {false ? (
-                    <p>Valeur chargé</p>
+                false ? (
+                    <div className={`weather ${theme} card`}>
+                    </div>
                 ) : (
-                    <div className="skeleton"></div>
-                )}
-            </div>
+                    <div className="skeleton weather ${theme} card"></div>
+                )
+            
     )
 }
 export default Weather
