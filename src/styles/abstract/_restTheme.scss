@@ -1,10 +1,10 @@
 @import './colors';
 .isDark {
-    background-color: $bgDark;
-    color: $fontDark;
+    background-color: $bgDark !important;
+    color: $fontDark !important;
 }
 
 .isLight {
-    background-color: $bgLight;
-    color: $fontLight;
+    background-color: $bgLight !important;
+    color: $fontLight !important;
 }

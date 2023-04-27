@@ -20,10 +20,10 @@ function Weather({ city, theme }: { city: ICity, theme: Theme['rest']}) {
 
     return (
                 false ? (
-                    <div className={`weather ${theme} card`}>
+                    <div className={`weather ${theme}Skeleton card`}>
                     </div>
                 ) : (
-                    <div className="skeleton weather ${theme} card"></div>
+                    <div className={`weather ${theme}Skeleton card`}></div>
                 )
             
     )
