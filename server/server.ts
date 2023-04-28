@@ -20,7 +20,7 @@ app.use(cors());
 const weaiKey = '57eb12e46ecb4d2295d1f142f11329a2';
 const geoApi = '2lekm3r6b2x3DYJs+wGEUQ==ob8FgRUDI7wGnD2m';
 
-app.get('/weather/:lat/:lon', async (req, res) => {
+app.get('/weather/:lat/:lon', async (req: any, res: any) => {
     const { lat, lon } = req.params;
     let datas: IWeatherApiResponse;
     let response; 
@@ -55,7 +55,7 @@ app.get('/weather/:lat/:lon', async (req, res) => {
     }
 })
 
-app.get('/geocode/:city', async (req, res) => {
+app.get('/geocode/:city', async (req: any, res: any) => {
     try {
         const { city } = req.params;
         const response = await fetch(`https://api.api-ninjas.com/v1/city?name=${city}&limit=4`,{

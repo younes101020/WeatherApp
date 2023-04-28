@@ -67,9 +67,9 @@
     flex-wrap: wrap;
     gap: 2rem;
     padding: 5rem;
-    .skeleton {
+    @mixin skeleton($firstColor, $secondColor) {
         background: #eee;
-        background: linear-gradient(265deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+        background: linear-gradient(265deg, $firstColor 8%, $secondColor 18%, $firstColor 33%);
         background-size: 200% 100%;
         animation: 1.5s shine linear infinite;
         @keyframes shine {
@@ -78,5 +78,10 @@
             }
         }
     }
-    
+    .isLightSkeleton {
+        @include skeleton(#ececec, #f5f5f5)
+    }
+    .isDarkSkeleton {
+        @include skeleton(#0F172A, #020617)
+    }
 }
