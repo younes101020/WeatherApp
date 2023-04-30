@@ -1,8 +1,11 @@
 import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 import cors from'cors';
 import fetch from 'node-fetch';
 import redis, { RedisClientType } from 'redis';
 import { ICity, IWeather, IWeatherApiResponse, ICityApiResponse } from '../types/interfaces';
+
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -17,8 +20,15 @@ let redisClient: RedisClientType;
 
 app.use(cors());
 
-const weaiKey = '57eb12e46ecb4d2295d1f142f11329a2';
-const geoApi = '2lekm3r6b2x3DYJs+wGEUQ==ob8FgRUDI7wGnD2m';
+let weaiKey: string;
+let geoApi: string;
+if(process.env.WEAI_API_Key && process.env.GEO_API_KEY) {
+    weaiKey = process.env.WEAI_API_Key;
+    geoApi = process.env.GEO_API_KEY;
+} else {
+    throw new Error("API keys are not set");
+}
+
 
 app.get('/weather/:lat/:lon', async (req: any, res: any) => {
     const { lat, lon } = req.params;
@@ -29,8 +39,8 @@ app.get('/weather/:lat/:lon', async (req: any, res: any) => {
         const cacheResults = await redisClient.get(`${lat}&${lon}`);
         if(cacheResults) {
             isCached = true;
-            datas = JSON.parse(JSON.stringify(cacheResults));
-        } else {
+            datas = JSON.parse(cacheResults);
+        } else {console.log(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${weaiKey}`)
             response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${weaiKey}`);
             datas = await response.json() as IWeatherApiResponse;
             const formatedData: IWeather[] = datas.data.map(({ valid_date, temp, max_temp, min_temp, rh, weather, vis, sunset_ts, sunrise_ts, moonrise_ts, moonset_ts }) => ({
@@ -47,6 +57,7 @@ app.get('/weather/:lat/:lon', async (req: any, res: any) => {
                                     moonset_ts,
                                 }));
             await redisClient.set(`${lat}&${lon}`, JSON.stringify(formatedData));
+            await redisClient.expire(`${lat}&${lon}`, 7200);
         }
         res.send({fromCache: isCached, data: datas});
     } catch (error) {

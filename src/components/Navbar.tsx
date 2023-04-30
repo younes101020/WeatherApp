@@ -16,8 +16,8 @@ function Navbar() {
             const newBodyTheme = prevTheme.body === 'isBodyDark' ? 'isBodyLight' : 'isBodyDark';
             const newRestTheme = prevTheme.rest === 'isDark' ? 'isLight' : 'isDark';
             localStorage.setItem('mode', newBodyTheme)
-            body.classList.remove('isBodyDark', 'isBodyLight');
-            body.classList.add(newBodyTheme);
+            body?.classList.remove('isBodyDark', 'isBodyLight');
+            body?.classList.add(newBodyTheme);
             return { body: newBodyTheme, rest: newRestTheme }
     })
     }

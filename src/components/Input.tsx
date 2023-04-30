@@ -101,7 +101,7 @@ function Input() {
                 </button>
             </form>
             <section className='container'>
-                <Weather city={state.city} theme={theme.rest} />
+                <Weather city={state.city} />
                 <Article theme={theme.rest} />
             </section>
         </>

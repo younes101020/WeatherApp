@@ -68,6 +68,9 @@
     gap: 2rem;
     padding: 5rem;
     @mixin skeleton($firstColor, $secondColor) {
+        -webkit-transition: background-color 0.5s ease;
+        -ms-transition: background-color 0.5s ease;
+        transition: background-color 0.5s ease;
         background: #eee;
         background: linear-gradient(265deg, $firstColor 8%, $secondColor 18%, $firstColor 33%);
         background-size: 200% 100%;

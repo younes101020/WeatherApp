@@ -1,7 +1,66 @@
 @use './App';
+@use './abstract/colors';
 .weather {
     @include App.card(40vw);
+    .card-header {
+        height: 30%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .card-body {
+        height: 70%;
+        display: flex;
+        flex-wrap: wrap;
+        .temp {
+            flex-grow: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+        }
+        .optTemp {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .info {
+            display: flex;
+            gap: .5rem;
+            padding: .5rem 1rem;
+            border-radius: .5rem;
+            line-height: 1;
+            & > svg {
+               align-self: flex-end;
+            }
+            p {
+                padding: 0 0 0 0.3rem;
+                font-size: 1.1rem;
+                align-self: center;
+            }
+        }
+    }
+    color: white !important;
+    h1 {
+        font-size: 1.3rem;
+       font-weight: 600;
+       #falc {
+        font-weight: 100;
+       }
+    }
+    img {
+        width: 6rem
+    }
     @media (max-width: 1025px) {
         min-width: 70vw;
+    }
+    @media (max-width: 505px) {
+        .card-header {
+            padding-top: 2rem;
+            justify-content: center;
+        }
     }
 }
