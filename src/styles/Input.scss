@@ -8,6 +8,7 @@
     .field {
         display: flex;
         flex-direction: column;
+        position: relative;
         #city {
             box-sizing: border-box;
             background: transparent;
@@ -20,6 +21,10 @@
             }
         };
         .citySugg {
+            position: absolute;
+            top: 2.3rem;
+            width: 100%;
+            max-width: 20rem;
             border: .1em solid #64748B;
             border-top: none;
             border-radius: 0 0 .5rem .5rem;

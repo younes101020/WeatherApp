@@ -44,8 +44,12 @@ function Input() {
                 try {
                     const response = await fetch(`http://localhost:3001/geocode/${state.cityOnChange}`);
                     const data = await response.json();
-                    dispatch({ type: 'SET_CITY_SUGG', payload: data });
-                    console.log(data)
+                    const uniqData = data.filter((value: any, index: number, self: any[]) =>
+                        index === self.findIndex((t) => (
+                            t.name === value.name
+                        ))
+                    )
+                    dispatch({ type: 'SET_CITY_SUGG', payload: uniqData });
                 } catch (error) {
                     console.log(error);
                 }

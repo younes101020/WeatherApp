@@ -32,18 +32,18 @@ if(process.env.WEAI_API_Key && process.env.GEO_API_KEY) {
 
 app.get('/weather/:lat/:lon', async (req: any, res: any) => {
     const { lat, lon } = req.params;
-    let datas: IWeatherApiResponse;
+    let formatedData: IWeather[];
     let response; 
     let isCached = false;
     try {
         const cacheResults = await redisClient.get(`${lat}&${lon}`);
         if(cacheResults) {
             isCached = true;
-            datas = JSON.parse(cacheResults);
-        } else {console.log(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${weaiKey}`)
+            formatedData = JSON.parse(cacheResults);
+        } else {
             response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${weaiKey}`);
-            datas = await response.json() as IWeatherApiResponse;
-            const formatedData: IWeather[] = datas.data.map(({ valid_date, temp, max_temp, min_temp, rh, weather, vis, sunset_ts, sunrise_ts, moonrise_ts, moonset_ts }) => ({
+            const datas = await response.json() as IWeatherApiResponse;
+            formatedData = datas.data.map(({ valid_date, temp, max_temp, min_temp, rh, weather, vis, sunset_ts, sunrise_ts, moonrise_ts, moonset_ts }) => ({
                                     valid_date,
                                     temp,
                                     max_temp,
@@ -59,7 +59,7 @@ app.get('/weather/:lat/:lon', async (req: any, res: any) => {
             await redisClient.set(`${lat}&${lon}`, JSON.stringify(formatedData));
             await redisClient.expire(`${lat}&${lon}`, 7200);
         }
-        res.send({fromCache: isCached, data: datas});
+        res.send({fromCache: isCached, data: formatedData});
     } catch (error) {
         console.error('Error fetching weather data:', error);
         res.status(500).json({ error: 'Error fetching weather data'});

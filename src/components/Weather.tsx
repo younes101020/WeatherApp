@@ -11,13 +11,13 @@ function Weather({ city }: { city: ICity }) {
     const [weather, setWeather] = useState<IWeather[]>([]);
     const { theme } = useContext(ThemeContext);
     const [jourS, jourN, mois] = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).split(' ');
+
     useEffect(() => {
         const fetchWeather = async () => {
             try {
                 const response = await fetch(`http://localhost:3001/weather/${city.latitude}/${city.longitude}`);
-                const weather = await response.json();
-                setWeather(weather.data);
-                console.log(weather)
+                const weatherResp = await response.json();
+                setWeather(weatherResp.data);
             } catch (error) {
                 console.log(error);
             }
@@ -25,27 +25,27 @@ function Weather({ city }: { city: ICity }) {
         fetchWeather();
     }, [city]);
 
+  
     return (
-                weather ? (
+                weather[0] ? (
                     <div className={`weather card ${theme.rest}`}>
                         <div className="card-header">
                             <h1>{jourS.replace(/^\w/, c => c.toUpperCase())} <span id="falc">{jourN} {mois}</span></h1>
-                            <img src="https://www.weatherbit.io/static/img/icons/c03d.png" alt="Weather icon" />
+                            <h2>{city.name.replace(/^\w/, c => c.toUpperCase())}</h2>
                         </div> 
                         <div className="card-body">
                             <div className="temp">
+                                    <p>{weather[0].temp} °</p>
+                                    <img src="https://www.weatherbit.io/static/img/icons/c03d.png" alt="Weather icon" />
+                            </div>
+                            <div className="optTemp">
                                 <div className={`info ${theme.body}`}>
-                                    <CiTempHigh /> <span>|</span><p>8C</p>
+                                    <TbMathMax /> <span>|</span><p>{weather[0].max_temp} °</p>
                                 </div>
                             </div>
                             <div className="optTemp">
                                 <div className={`info ${theme.body}`}>
-                                    <TbMathMax /> <span>|</span><p>8C</p>
-                                </div>
-                            </div>
-                            <div className="optTemp">
-                                <div className={`info ${theme.body}`}>
-                                    <TbMathMin /> <span>|</span><p>8C</p>
+                                    <TbMathMin /> <span>|</span><p>{weather[0].min_temp} °</p>
                                 </div>
                             </div>
                         </div>
