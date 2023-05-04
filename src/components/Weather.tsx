@@ -1,7 +1,6 @@
 import '../styles/Weather.scss'
 import { useEffect, useState, useContext } from 'react';
 import { IWeather, ICity } from '../../types/interfaces'
-import { CiTempHigh } from 'react-icons/ci';
 import { TbMathMax, TbMathMin } from 'react-icons/tb';
 import { ThemeContext } from './App';
 
@@ -25,7 +24,6 @@ function Weather({ city }: { city: ICity }) {
         fetchWeather();
     }, [city]);
 
-  
     return (
                 weather[0] ? (
                     <div className={`weather card ${theme.rest}`}>

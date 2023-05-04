@@ -1,6 +1,23 @@
 @use './App';
 .article {
-    @include App.card(25vw);
+    color: #fff;
+    @include App.card(25vw, 2rem);
+    .sunrise {
+        display: flex;
+        flex-direction: column;
+        hr {
+            width: 15%;
+            padding: .2rem 0;
+            border: none;
+            border-bottom: solid 1px;
+        }
+        p {
+            padding-top: .2rem;
+        }
+        .strong {
+            font-weight: 600;
+        }
+    }
     @media (max-width: 1025px) {
         min-width: 70vw;
     }
