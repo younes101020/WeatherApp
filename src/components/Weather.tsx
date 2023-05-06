@@ -1,13 +1,15 @@
 import '../styles/Weather.scss'
-import { useEffect, useState, useContext } from 'react';
-import { IWeather, ICity } from '../../types/interfaces'
+import { useEffect, useContext } from 'react';
+import { ICity } from '../../types/interfaces'
 import { TbMathMax, TbMathMin } from 'react-icons/tb';
 import { ThemeContext } from './App';
+import { WeatherContext } from './Input';
 
 
 
 function Weather({ city }: { city: ICity }) {
-    const [weather, setWeather] = useState<IWeather[]>([]);
+   
+    const [weather, setWeather] = useContext(WeatherContext);
     const { theme } = useContext(ThemeContext);
     const [jourS, jourN, mois] = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).split(' ');
 

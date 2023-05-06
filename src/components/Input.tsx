@@ -3,10 +3,13 @@ import Article from './Article';
 import { ThemeContext } from './App'
 import useDebounce from '../hooks/useDebounce';
 import '../styles/Input.scss';
-import { useContext, useEffect, useRef, useReducer } from 'react';
+import { createContext, useContext, useEffect, useRef, useReducer, useState } from 'react';
 import { AiOutlineEnter } from 'react-icons/ai';
 import { GiPositionMarker } from 'react-icons/gi';
 import { State, Action } from '../../types/reducerInterface'
+
+
+export const WeatherContext = createContext<any>(null);
 
 const initialState: State = {
     city: { 
@@ -36,7 +39,8 @@ function Input() {
     const formRef = useRef<HTMLFormElement>(null);
     const isSuggestionVal = state.cityOnChange.includes(' ');
     const { theme } = useContext(ThemeContext);
-    const debouncedInputValue = useDebounce(state.cityOnChange, 500)
+    const weatherState = useState(null);
+    const debouncedInputValue = useDebounce(state.cityOnChange, 500);
 
     useEffect(() => {
         if (debouncedInputValue && !isSuggestionVal) {
@@ -105,8 +109,10 @@ function Input() {
                 </button>
             </form>
             <section className='container'>
-                <Weather city={state.city} />
-                <Article theme={theme.rest} />
+                <WeatherContext.Provider value={weatherState}>
+                    <Weather city={state.city} />
+                    <Article theme={theme.rest} />
+                </WeatherContext.Provider>
             </section>
         </>
     );
