@@ -85,6 +85,9 @@
         }
         .temp {
             gap: 0 !important;
+            p {
+                height: inherit !important;
+            }
         }
     }
 }

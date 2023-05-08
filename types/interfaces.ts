@@ -15,6 +15,14 @@ export interface IWeather {
     moonset_ts: number
 }
 
+export interface ICelestial {
+    date: string,
+    moonrise: string,
+    moonset: string,
+    sunrise: string,
+    sunset: string
+}
+
 export interface IWeatherApiResponse {
     city_name: string,
     country_code: string,

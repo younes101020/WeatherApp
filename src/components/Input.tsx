@@ -29,7 +29,7 @@ function reducer(state: State, action: Action) {
             return { ...state, cityOnChange: action.payload };
         case 'SET_CITY_SUGG':
             return { ...state, citySugg: action.payload };
-        default:
+           default:
             throw new Error();
     }
 }

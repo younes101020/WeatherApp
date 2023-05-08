@@ -27,7 +27,7 @@ function Weather({ city }: { city: ICity }) {
     }, [city]);
 
     return (
-                weather[0] ? (
+                weather ? (     
                     <div className={`weather card ${theme.rest}`}>
                         <div className="card-header">
                             <h1>{jourS.replace(/^\w/, c => c.toUpperCase())} <span id="falc">{jourN} {mois}</span></h1>
