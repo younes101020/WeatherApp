@@ -5,6 +5,9 @@
     justify-content: center;
     align-items: flex-end;
     flex-wrap: wrap;
+    .position {
+        cursor: pointer;
+    }
     .field {
         display: flex;
         flex-direction: column;
@@ -63,7 +66,7 @@
         border-radius: .5rem 0 0 .5rem;
         border: .1em solid #64748B;
         border-right: none;
-        padding: .5rem .7rem;
+        padding: .55rem .7rem;
     }
 }
 .container {

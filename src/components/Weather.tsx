@@ -31,7 +31,7 @@ function Weather({ city }: { city: ICity }) {
                     <div className={`weather card ${theme.rest}`}>
                         <div className="card-header">
                             <h1>{jourS.replace(/^\w/, c => c.toUpperCase())} <span id="falc">{jourN} {mois}</span></h1>
-                            <h2>{city.name.replace(/^\w/, c => c.toUpperCase())}</h2>
+                            <h2>{weather[0].cityName}</h2>
                         </div> 
                         <div className="card-body">
                             <div className="temp">
@@ -39,12 +39,12 @@ function Weather({ city }: { city: ICity }) {
                                     <img src="https://www.weatherbit.io/static/img/icons/c03d.png" alt="Weather icon" />
                             </div>
                             <div className="optTemp">
-                                <div className={`info ${theme.body}`}>
+                                <div className={`info`}>
                                     <TbMathMax /> <span>|</span><p>{weather[0].max_temp} °</p>
                                 </div>
                             </div>
                             <div className="optTemp">
-                                <div className={`info ${theme.body}`}>
+                                <div className={`info`}>
                                     <TbMathMin /> <span>|</span><p>{weather[0].min_temp} °</p>
                                 </div>
                             </div>

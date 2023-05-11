@@ -43,7 +43,9 @@ app.get('/weather/:lat/:lon', async (req: any, res: any) => {
         } else {
             response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${weaiKey}`);
             const datas = await response.json() as IWeatherApiResponse;
+            const cityName: string = datas.city_name;
             formatedData = datas.data.map(({ valid_date, temp, max_temp, min_temp, rh, weather, vis, sunset_ts, sunrise_ts, moonrise_ts, moonset_ts }) => ({
+                                    cityName,
                                     valid_date,
                                     temp,
                                     max_temp,

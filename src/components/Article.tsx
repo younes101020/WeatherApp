@@ -18,7 +18,6 @@ function Article({ theme }: { theme: Theme['rest'] }) {
 
     useEffect(() => {
         if(isMounted) {
-            console.log(weather)
             const celestialEvent = weather.map((el: IWeather) => {
                 return {
                     date: el.valid_date,
@@ -33,8 +32,6 @@ function Article({ theme }: { theme: Theme['rest'] }) {
         }
     }, [weather])
 
-    console.log(moonsun.length)
-
     console.log(weather);
     return (
         moonsun.length > 0 ? (
@@ -45,17 +42,17 @@ function Article({ theme }: { theme: Theme['rest'] }) {
                         <hr />
                         <p> Levé du <span className='strong'>soleil</span> à <span className='hours'>{moonsun[0].sunrise}</span></p>
                     </div>
-                    <div className='colum'>
+                    <div className='column'>
                         <BsFillSunriseFill className='sunriseIco' />
                         <hr />
                         <p> Couché du <span className='strong'>soleil</span> à <span className='hours'>{moonsun[0].sunset}</span></p>
                     </div>
-                    <div className='colum'>
+                    <div className='column'>
                         <BsFillSunriseFill className='sunriseIco' />
                         <hr />
                         <p> Levé de la <span className='strong'>lune</span> à <span className='hours'>{moonsun[0].moonrise}</span></p>
                     </div>
-                    <div className='colum'>
+                    <div className='column'>
                         <BsFillSunriseFill className='sunriseIco' />
                         <hr />
                         <p> Couché de la <span className='strong'>lune</span> à <span className='hours'>{moonsun[0].moonset}</span></p>

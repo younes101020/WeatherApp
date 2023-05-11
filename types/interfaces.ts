@@ -70,7 +70,7 @@ export interface IWeatherApiResponse {
 }
 
 export interface ICity {
-    name: string,
+    name?: string,
     latitude: number,
     longitude: number
 }

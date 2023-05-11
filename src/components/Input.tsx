@@ -76,6 +76,15 @@ function Input() {
         formRef.current && formRef.current.click();
     };
 
+    const handlePosition = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            dispatch({ type: 'SET_CITY', payload: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            }});
+        });
+    }
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
        e.preventDefault();
     };
@@ -83,12 +92,11 @@ function Input() {
     return (
         <>
             <form ref={formRef} onSubmit={handleSubmit} className='Input' autoComplete='off'>
-                <span className={theme.rest}>
+                <span className={`position ${theme.rest}`} onClick={handlePosition}>
                     <GiPositionMarker />
                 </span>
                 <div className='field'>
                     <input type='text' id='city' name='cityOnChange' onChange={handleInputChange} value={state.cityOnChange} />
-                    
                             {state.citySugg.length > 0 ?
                             (
                             <div className={`citySugg ${theme.rest}`}>
@@ -102,7 +110,6 @@ function Input() {
                                 :
                             null
                             }
-                    
                 </div>
                 <button type='submit' className={theme.rest}>
                     <AiOutlineEnter />
