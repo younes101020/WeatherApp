@@ -96,3 +96,10 @@
         @include skeleton(#0F172A, #020617)
     }
 }
+@media (max-width: 450px) {
+    .Input {
+        :is(span) {
+            padding: .50rem .7rem !important;
+        }
+    }
+}

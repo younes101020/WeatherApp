@@ -11,6 +11,18 @@
         h1 {
             font-size: 1.3rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            #calendar {
+                padding: .3rem .5rem;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgba(255,255,255, .1);
+                    border-radius: 100vw;
+                }
+
+            }
             #falc {
                 font-weight: 100;
             }
@@ -51,12 +63,17 @@
                 }
             }
         }
-        .optTemp {
-            min-width: 50%;
+        .addTemp {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            gap: 2rem;
+            .optTemp {
+                min-width: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
+        
         .info {
             display: flex;
             box-shadow: 0px 0px 1em rgba(2, 6, 23, 0.5);
@@ -84,12 +101,30 @@
         .card-header {
             padding-top: 2rem;
             justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
         }
         .temp {
             gap: 0 !important;
             p {
                 height: inherit !important;
+                padding: 0 !important;
+                position: relative;
+                &:after {
+                    transform: rotate(90deg) !important;
+                    height: 2rem !important;
+                    top: 5rem;
+                }
             }
+        }
+        .addTemp {
+            flex-direction: column;
+            gap: 1rem !important;
+            justify-content: center;
+        }
+        .info {
+            width: 8.5rem;
+            justify-content: center;
         }
     }
 }
