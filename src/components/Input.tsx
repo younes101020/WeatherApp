@@ -1,7 +1,8 @@
+import Datepicker from './Datepicker';
 import Weather from './Weather';
 import Article from './Article';
 import { ThemeContext } from './App'
-import useDebounce from '../hooks/useDebounce';
+import useDebounce from '../hooks/useDebounce'
 import '../styles/Input.scss';
 import { createContext, useContext, useEffect, useRef, useReducer, useState } from 'react';
 import { AiOutlineEnter } from 'react-icons/ai';
@@ -117,6 +118,7 @@ function Input() {
             </form>
             <section className='container'>
                 <WeatherContext.Provider value={weatherState}>
+                    <Datepicker theme={theme.rest} />
                     <Weather city={state.city} />
                     <Article theme={theme.rest} />
                 </WeatherContext.Provider>

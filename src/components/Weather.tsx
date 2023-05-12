@@ -1,10 +1,16 @@
 import '../styles/Weather.scss'
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { ICity } from '../../types/interfaces'
 import { TbMathMax, TbMathMin } from 'react-icons/tb';
-import { FaCalendarAlt } from 'react-icons/fa';
 import { ThemeContext } from './App';
 import { WeatherContext } from './Input';
+
+function convertDate(dateString: string) {
+    const date = new Date(dateString);
+    const option = { weekday: 'long', day: 'numeric', month: 'long' };  
+    const frenchDateString = date.toLocaleDateString('fr-FR', option);  
+    return frenchDateString.charAt(0).toUpperCase() + frenchDateString.slice(1);
+}  
 
 
 function Weather({ city }: { city: ICity }) {
@@ -17,7 +23,7 @@ function Weather({ city }: { city: ICity }) {
             try {
                 const response = await fetch(`http://localhost:3001/weather/${city.latitude}/${city.longitude}`);
                 const weatherResp = await response.json();
-                setWeather(weatherResp.data);
+                setWeather({id: 0 ,data: weatherResp.data});
             } catch (error) {
                 console.log(error);
             }
@@ -25,27 +31,30 @@ function Weather({ city }: { city: ICity }) {
         fetchWeather();
     }, [city]);
 
+    console.log(weather)
+
     return (
-                weather ? (     
+                weather ? (
                     <div className={`weather card ${theme.rest}`}>
                         <div className="card-header">
-                            <h1>{jourS.replace(/^\w/, c => c.toUpperCase())} <span id="falc">{jourN} {mois}</span><div id="calendar"><FaCalendarAlt /></div></h1>
-                            <h2>{weather[0].cityName}</h2>
+                            {/* <h1>{jourS.replace(/^\w/, c => c.toUpperCase())} <span id="falc">{jourN} {mois}</span></h1> */}
+                            <h1>{convertDate(weather.data[weather.id].valid_date)}</h1>
+                            <h2>{weather.data[weather.id].cityName}</h2>
                         </div> 
                         <div className="card-body">
                             <div className="temp">
-                                    <p>{weather[0].temp} °</p>
+                                    <p>{weather.data[weather.id].temp} °</p>
                                     <img src="https://www.weatherbit.io/static/img/icons/c03d.png" alt="Weather icon" />
                             </div>
                             <div className="addTemp">
                                 <div className="optTemp">
                                     <div className={`info`}>
-                                        <TbMathMax /> <span>|</span><p>{weather[0].max_temp} °</p>
+                                        <TbMathMax /> <span>|</span><p>{weather.data[weather.id].max_temp} °</p>
                                     </div>
                                 </div>
                                 <div className="optTemp">
                                     <div className={`info`}>
-                                        <TbMathMin /> <span>|</span><p>{weather[0].min_temp} °</p>
+                                        <TbMathMin /> <span>|</span><p>{weather.data[weather.id].min_temp} °</p>
                                     </div>
                                 </div>
                             </div>

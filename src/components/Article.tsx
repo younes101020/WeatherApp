@@ -18,7 +18,7 @@ function Article({ theme }: { theme: Theme['rest'] }) {
 
     useEffect(() => {
         if(isMounted) {
-            const celestialEvent = weather.map((el: IWeather) => {
+            const celestialEvent = weather.data.map((el: IWeather) => {
                 return {
                     date: el.valid_date,
                     moonrise: setHour(el.moonrise_ts),
@@ -32,7 +32,6 @@ function Article({ theme }: { theme: Theme['rest'] }) {
         }
     }, [weather])
 
-    console.log(weather);
     return (
         moonsun.length > 0 ? (
            <div className={`article card ${theme}`}>

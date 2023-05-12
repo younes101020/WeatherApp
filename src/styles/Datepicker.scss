@@ -1,0 +1,14 @@
+@use './App';
+@use './abstract/colors';
+.date {
+    display: flex;
+    input[type=range] {
+        transform: rotate(-90deg);
+        width: 15rem;
+    }
+}
+@media (max-width: 1025px) {
+    input[type=range] {
+        transform: unset !important;
+    }
+}

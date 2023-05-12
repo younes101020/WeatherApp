@@ -2,9 +2,23 @@
 .isDark {
     background-color: $bgDark;
     color: $fontDark;
+    &::-webkit-slider-runnable-track {
+        background-color: $bgDark;
+        color: $fontDark;
+        border-radius: 1rem;
+    }
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background: #ffff !important;
+    }
 }
 
 .isLight {
     background-color: $bgLight;
     color: $fontLight;
+    &::-webkit-slider-runnable-track {
+        border-radius: 1rem;
+        background-color: $bgLight !important;
+        color: $fontLight;
+    }
 }
